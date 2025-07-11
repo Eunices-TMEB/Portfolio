@@ -1,0 +1,31 @@
+{
+  "name": "eunice-trujillo-portfolio",
+  "version": "1.0.0",
+  "description": "Portafolio personal de Eunice Trujillo - Front-End Developer",
+  "main": "index.html",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "dev": "python -m http.server 8000",
+    "build": "echo 'Build completado'",
+    "deploy": "echo 'Deploy completado'"
+  },
+  "keywords": [
+    "portfolio",
+    "frontend",
+    "developer",
+    "web",
+    "html",
+    "css",
+    "javascript"
+  ],
+  "author": "Eunice Trujillo",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/eunice-trujillo/portfolio.git"
+  },
+  "bugs": {
+    "url": "https://github.com/eunice-trujillo/portfolio/issues"
+  },
+  "homepage": "https://eunice-trujillo.github.io/portfolio"
+} 
