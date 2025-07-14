@@ -505,3 +505,205 @@ document.addEventListener('DOMContentLoaded', () => {
         initParallax();
     }
 }); 
+
+// Funciones del carrusel de proyectos
+let currentSlideIndex = 0;
+const slideIndices = [0, 0, 0, 0, 0, 0, 0]; // Para múltiples carruseles (actualizado para 7 slides)
+
+function changeSlide(direction, carouselIndex) {
+    const carousel = document.querySelectorAll('.carousel-container')[carouselIndex];
+    const slides = carousel.querySelectorAll('.carousel-slide');
+    const dots = document.querySelectorAll('.carousel-dots')[carouselIndex].querySelectorAll('.dot');
+    
+    // Ocultar slide actual
+    slides[slideIndices[carouselIndex]].classList.remove('active');
+    dots[slideIndices[carouselIndex]].classList.remove('active');
+    
+    // Calcular nuevo índice
+    slideIndices[carouselIndex] += direction;
+    
+    // Manejar límites
+    if (slideIndices[carouselIndex] >= slides.length) {
+        slideIndices[carouselIndex] = 0;
+    } else if (slideIndices[carouselIndex] < 0) {
+        slideIndices[carouselIndex] = slides.length - 1;
+    }
+    
+    // Mostrar nuevo slide
+    slides[slideIndices[carouselIndex]].classList.add('active');
+    dots[slideIndices[carouselIndex]].classList.add('active');
+}
+
+function currentSlide(slideNumber, carouselIndex) {
+    const carousel = document.querySelectorAll('.carousel-container')[carouselIndex];
+    const slides = carousel.querySelectorAll('.carousel-slide');
+    const dots = document.querySelectorAll('.carousel-dots')[carouselIndex].querySelectorAll('.dot');
+    
+    // Ocultar slide actual
+    slides[slideIndices[carouselIndex]].classList.remove('active');
+    dots[slideIndices[carouselIndex]].classList.remove('active');
+    
+    // Actualizar índice
+    slideIndices[carouselIndex] = slideNumber - 1;
+    
+    // Mostrar nuevo slide
+    slides[slideIndices[carouselIndex]].classList.add('active');
+    dots[slideIndices[carouselIndex]].classList.add('active');
+}
+
+// Auto-play para el carrusel (opcional)
+function startCarouselAutoPlay(carouselIndex, interval = 5000) {
+    setInterval(() => {
+        changeSlide(1, carouselIndex);
+    }, interval);
+}
+
+// Iniciar auto-play cuando se carga la página
+window.addEventListener('load', () => {
+    // Solo auto-play para el primer carrusel (puedes cambiar el índice)
+    // startCarouselAutoPlay(0, 4000);
+});
+
+// Función para expandir información del proyecto
+function showProjectDetails(projectId) {
+    const projectCard = document.querySelector(`[data-project-id="${projectId}"]`);
+    const detailsSection = projectCard.querySelector('.project-details');
+    
+    if (detailsSection) {
+        detailsSection.classList.toggle('expanded');
+    }
+}
+
+// Función para abrir modal con más información del proyecto
+function openProjectModal(projectId) {
+    // Aquí puedes implementar un modal con información detallada
+    showNotification('Función de modal en desarrollo', 'info');
+}
+
+// Función para navegar a la página detallada del proyecto
+function goToProjectPage(projectId) {
+    // Aquí puedes implementar la navegación a una página específica del proyecto
+    showNotification('Página del proyecto en desarrollo', 'info');
+} 
+
+// Funciones de control del video
+function toggleVideo() {
+    const video = document.querySelector('.carousel-slide video');
+    const playPauseBtn = document.querySelector('.play-pause-btn i');
+    
+    if (video.paused) {
+        video.play();
+        playPauseBtn.className = 'fas fa-pause';
+    } else {
+        video.pause();
+        playPauseBtn.className = 'fas fa-play';
+    }
+}
+
+function toggleMute() {
+    const video = document.querySelector('.carousel-slide video');
+    const muteBtn = document.querySelector('.mute-btn i');
+    
+    if (video.muted) {
+        video.muted = false;
+        muteBtn.className = 'fas fa-volume-up';
+    } else {
+        video.muted = true;
+        muteBtn.className = 'fas fa-volume-mute';
+    }
+}
+
+// Inicializar controles del video cuando se carga la página
+window.addEventListener('load', () => {
+    const video = document.querySelector('.carousel-slide video');
+    if (video) {
+        // Asegurar que el video esté muteado por defecto
+        video.muted = true;
+        
+        // Actualizar icono de mute
+        const muteBtn = document.querySelector('.mute-btn i');
+        if (muteBtn) {
+            muteBtn.className = 'fas fa-volume-mute';
+        }
+        
+        // Manejar eventos del video
+        video.addEventListener('play', () => {
+            const playPauseBtn = document.querySelector('.play-pause-btn i');
+            if (playPauseBtn) {
+                playPauseBtn.className = 'fas fa-pause';
+            }
+        });
+        
+        video.addEventListener('pause', () => {
+            const playPauseBtn = document.querySelector('.play-pause-btn i');
+            if (playPauseBtn) {
+                playPauseBtn.className = 'fas fa-play';
+            }
+        });
+        
+        video.addEventListener('ended', () => {
+            // El video se repite automáticamente debido a loop
+        });
+    }
+}); 
+
+// Funciones para los logos de tecnologías
+function showTechInfo(techName) {
+    const techInfo = {
+        'React 18': {
+            description: 'Biblioteca de JavaScript para construir interfaces de usuario',
+            features: ['Componentes reutilizables', 'Virtual DOM', 'Hooks avanzados'],
+            version: '18.x'
+        },
+        'TypeScript': {
+            description: 'Superset de JavaScript con tipado estático',
+            features: ['Tipado estático', 'IntelliSense', 'Detección de errores'],
+            version: '5.x'
+        },
+        'Material UI': {
+            description: 'Biblioteca de componentes React siguiendo Material Design',
+            features: ['Componentes predefinidos', 'Tema personalizable', 'Responsive'],
+            version: '5.x'
+        },
+        'JWT': {
+            description: 'JSON Web Tokens para autenticación segura',
+            features: ['Autenticación stateless', 'Tokens seguros', 'Sesiones persistentes'],
+            version: 'N/A'
+        },
+        'Recharts': {
+            description: 'Biblioteca de gráficos para React',
+            features: ['Gráficos interactivos', 'Múltiples tipos', 'Responsive'],
+            version: '2.x'
+        },
+        'React Router': {
+            description: 'Enrutamiento declarativo para React',
+            features: ['Navegación SPA', 'Rutas anidadas', 'Historial del navegador'],
+            version: '6.x'
+        }
+    };
+    
+    const info = techInfo[techName];
+    if (info) {
+        const message = `
+${techName} (v${info.version})
+
+${info.description}
+
+Características:
+${info.features.map(f => `• ${f}`).join('\n')}
+        `;
+        
+        showNotification(message, 'info');
+    }
+}
+
+// Agregar event listeners a los logos de tecnologías
+document.addEventListener('DOMContentLoaded', () => {
+    const techLogos = document.querySelectorAll('.tech-logo');
+    techLogos.forEach(logo => {
+        logo.addEventListener('click', () => {
+            const techName = logo.getAttribute('title');
+            showTechInfo(techName);
+        });
+    });
+}); 
